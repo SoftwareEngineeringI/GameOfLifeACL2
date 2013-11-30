@@ -16,7 +16,7 @@ public class Grid {
 	
 	private boolean inRange(int place)
 	{
-		if(0< place && width * height >= place)
+		if(0< place && width * height > place)
 			return true;
 		return false;
 	}
@@ -44,20 +44,14 @@ public class Grid {
 		if(!inRange(place)){
 			throw new IllegalArgumentException("that location is outside of the grid!");
 		}
-		if(place % width == 1){
-			return (place + (width - 1));
-		}
-		return place - 1;
+		return 0;
 	}
 	
 	public int right (int place) {
 		if(!inRange(place)){
 			throw new IllegalArgumentException("that location is outside of the grid!");
 		}
-		if(place % width == 0){
-			return (place - (width - 1));
-		}
-		return place + 1;
+		return 0;
 	}
 	
 	public int upLeft (int place){

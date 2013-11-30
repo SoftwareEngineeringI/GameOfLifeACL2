@@ -14,16 +14,7 @@ public class Grid {
 		this.aliveCells = new HashSet<Integer>();
 	}
 	
-	private boolean inRange(int place)
-	{
-		if(0< place && width * height >= place)
-			return true;
-		return false;
-	}
 	public int above ( int place) {	
-		if(!inRange(place)){
-			throw new IllegalArgumentException("that location is outside of the grid!");
-		}
 		if((0< place) && (place <= width)){
 			return (width * (height-1) + place);
 		}else
@@ -31,9 +22,6 @@ public class Grid {
 	}
 	
 	public int below ( int place) {
-		if(!inRange(place)){
-			throw new IllegalArgumentException("that location is outside of the grid!");
-		}
 		if((width * (height -1)< place) && (place <= width*height)){
 			return ( place - width * (height -1) );
 		}else
@@ -41,23 +29,11 @@ public class Grid {
 	}
 	
 	public int left (int place) {
-		if(!inRange(place)){
-			throw new IllegalArgumentException("that location is outside of the grid!");
-		}
-		if(place % width == 1){
-			return (place + (width - 1));
-		}
-		return place - 1;
+		return 0;
 	}
 	
 	public int right (int place) {
-		if(!inRange(place)){
-			throw new IllegalArgumentException("that location is outside of the grid!");
-		}
-		if(place % width == 0){
-			return (place - (width - 1));
-		}
-		return place + 1;
+		return 0;
 	}
 	
 	public int upLeft (int place){

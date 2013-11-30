@@ -1,0 +1,49 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+
+public class GridTest {
+
+	@Test
+	public void testAbove() {
+		Grid grid = new Grid (10,10);
+		assertEquals("normal case",5, grid.above(15));
+	}
+
+	@Test
+	public void testBelow() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testLeft() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRight() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testUpLeft() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testUpRight() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDownLeft() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDownRight() {
+		fail("Not yet implemented");
+	}
+
+}
