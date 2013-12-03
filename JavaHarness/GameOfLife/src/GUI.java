@@ -9,6 +9,7 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -36,7 +38,7 @@ public class GUI extends JFrame implements AssetProvider {
   private JTextField yCorInput = new JTextField("---");
   private JButton add = new JButton ("add");
   
-  String[] objects = { "Spinner", "Blah", "Glider" };
+  String[] objects = { "Blinker", "Spinner", "Glider", "Beehive", "Single", "Block"};
   private JComboBox objectList = new JComboBox(objects);
 
 //  NEED to set current Executable
@@ -46,10 +48,36 @@ public class GUI extends JFrame implements AssetProvider {
   
   private boolean started = false;
   
+  private Grid grid;
+  
   private AsyncProgramRunner runner = new AsyncProgramRunner();
   
   public GUI() {
-    setTitle("Example Harness vA");
+    setTitle("Game of Life");
+    boolean badHeightInput = true;
+    boolean badWidthInput = true;
+    int width = -1;
+	int height = -1;
+    while (badHeightInput) {
+	    try {
+	    	height = Integer.parseInt(JOptionPane.showInputDialog("Enter the height:"));
+	    	badHeightInput = false;
+	    }
+	    catch (Exception e) {
+	    	System.out.println("Height must be integer");
+	    }
+    }
+    while (badWidthInput) {
+	    try {
+	    	width = Integer.parseInt(JOptionPane.showInputDialog("Enter the Width:"));
+	    	badWidthInput = false;
+	    }
+	    catch (Exception e) {
+	    	System.out.println("Width must be integer");
+	    }
+    }
+    
+    grid = new Grid(width, height);
     
     getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     add(inputEditor);
@@ -67,8 +95,12 @@ public class GUI extends JFrame implements AssetProvider {
       public void actionPerformed(final ActionEvent e) {
         started = true;
         updateState();
+        for (int s : grid.getAliveCells()) {
+        	cachedInput += s + " ";
+        }
+        System.out.println(cachedInput);
         try {
-          writeFile(cachedInput, inputEditor.getText());
+          writeFile("initStateOfWorld.txt", cachedInput);
         } catch (final IOException e1) {
           e1.printStackTrace();
         }
@@ -87,11 +119,56 @@ public class GUI extends JFrame implements AssetProvider {
     	@Override
     	public void actionPerformed (final ActionEvent e) {
     		System.out.println ("Clicked Random");
-    		
+    		grid.clearGrid();
 //    		When we click random, stop the game update the state and randomize the inputs.
     		started = false;
+    		Random rand = new Random();
+
+    		for ( int i = 0; i < rand.nextInt( ( grid.getHeight() * grid.getWidth() ) / 2 ) + 1; i++) {
+    			int x = rand.nextInt( grid.getWidth() ) + 1;
+    			int y = rand.nextInt( grid.getHeight() ) + 1;
+    			grid.single(x,y);
+    			System.out.println("Added Single at " + x + " " + y);
+    		}
     		updateState();
     	}
+    });
+    
+    add.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+        	int xint = -1;
+        	int yint = -1;
+        	
+        	try {
+        		xint = Integer.parseInt(xCorInput.getText());
+        		yint = Integer.parseInt(yCorInput.getText());
+        	}
+        	catch (Exception ex) {
+        		System.out.println("Coordinates must be integers");
+        		return;
+        	}
+        	try {
+	        	if (objectList.getSelectedItem() == "Block") {
+	        		grid.block(xint, yint);
+	        	} else if (objectList.getSelectedItem() == "Glider") {
+	        		grid.glider(xint, yint);
+	        	} else if (objectList.getSelectedItem() == "Beehive") {
+	        		grid.beehive(xint, yint);
+	        	} else if (objectList.getSelectedItem() == "Blinker") {
+	        		grid.blinker(xint, yint);
+	        	} else if (objectList.getSelectedItem() == "Single") { 
+	        		grid.single(xint, yint);
+	        	}
+	        	System.out.println("Add" + objectList.getSelectedItem() + " at " + xCorInput.getText() + " " + xCorInput.getText());
+        	}
+        	catch (IllegalArgumentException exc) {
+        		System.err.println("Error: " + exc);
+        		return;
+        	}
+        	updateState();
+        	
+        }
     });
     
     bottomBar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -232,8 +309,7 @@ public class GUI extends JFrame implements AssetProvider {
     return s.toString();
   }
   
-  private static void writeFile(final String fileName,
-		  final String contents) throws IOException {
+  private static void writeFile(final String fileName, final String contents) throws IOException {
     final FileOutputStream output = new FileOutputStream(fileName);
     output.write(contents.getBytes());
     output.close();

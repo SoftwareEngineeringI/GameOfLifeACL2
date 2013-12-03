@@ -79,19 +79,22 @@ public class Grid {
 	
 	}
 
-	public void single(int place){
+	public void single(int _height, int _width){
+		int place = this.width * _height + _width;
 		aliveCells.add(place);
 	}
 	
 
-	public void block(int place){
+	public void block(int _height, int _width){
+		int place = this.width * _height + _width;
 		aliveCells.add(place);
 		aliveCells.add(below(place));
 		aliveCells.add(right(place));
 		aliveCells.add(downRight(place));
 	}
 	
-	public void beehive( int place) {
+	public void beehive( int _height, int _width) {
+		int place = this.width * _height + _width;
 		aliveCells.add(above(place));
 		aliveCells.add(below(place));
 		aliveCells.add(left(place));
@@ -100,13 +103,15 @@ public class Grid {
 		aliveCells.add(right(right(place)));
 	}
 	
-	public void blinker ( int place){
+	public void blinker ( int _height, int _width){
+		int place = this.width * _height + _width;
 		aliveCells.add(place);
 		aliveCells.add(above(place));
 		aliveCells.add(below(place));
 	}
 	
-	public void glider(int place){
+	public void glider(int _height, int _width){
+		int place = this.width * _height + _width;
 		aliveCells.add(above(place));
 		aliveCells.add(right(place));
 		aliveCells.add(below(place));
@@ -114,7 +119,8 @@ public class Grid {
 		aliveCells.add(downRight(place));
 	}
 	
-	public void setStartRPentomino( int place){
+	public void setStartRPentomino( int _height, int _width ){
+		int place = this.width * _height + _width;
 		aliveCells.clear();
 		aliveCells.add(place);
 		aliveCells.add(above(place));
