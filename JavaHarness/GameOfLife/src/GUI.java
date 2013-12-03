@@ -1,7 +1,6 @@
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -53,14 +52,18 @@ public class GUI extends JFrame implements AssetProvider {
   private AsyncProgramRunner runner = new AsyncProgramRunner();
   
   public GUI() {
-    setTitle("Game of Life");
+    setTitle("Game of Life"); 	
     boolean badHeightInput = true;
     boolean badWidthInput = true;
     int width = -1;
 	int height = -1;
     while (badHeightInput) {
 	    try {
-	    	height = Integer.parseInt(JOptionPane.showInputDialog("Enter the height:"));
+	    	String input = JOptionPane.showInputDialog("Enter the height:");
+	    	if (input == null) {
+	    		System.exit(0);
+	    	}
+	    	height = Integer.parseInt(input);
 	    	badHeightInput = false;
 	    }
 	    catch (Exception e) {
@@ -69,7 +72,11 @@ public class GUI extends JFrame implements AssetProvider {
     }
     while (badWidthInput) {
 	    try {
-	    	width = Integer.parseInt(JOptionPane.showInputDialog("Enter the Width:"));
+	    	String input = JOptionPane.showInputDialog("Enter the width:");
+	    	if (input == null) {
+	    		System.exit(0);
+	    	}
+	    	width = Integer.parseInt(input);
 	    	badWidthInput = false;
 	    }
 	    catch (Exception e) {
@@ -77,6 +84,7 @@ public class GUI extends JFrame implements AssetProvider {
 	    }
     }
     
+    System.out.println(height + " " + width);
     grid = new Grid(width, height);
     
     getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -100,7 +108,7 @@ public class GUI extends JFrame implements AssetProvider {
         }
         System.out.println(cachedInput);
         try {
-          writeFile("initStateOfWorld.txt", cachedInput);
+          writeFile("world.txt", cachedInput);
         } catch (final IOException e1) {
           e1.printStackTrace();
         }
@@ -127,7 +135,7 @@ public class GUI extends JFrame implements AssetProvider {
     		for ( int i = 0; i < rand.nextInt( ( grid.getHeight() * grid.getWidth() ) / 2 ) + 1; i++) {
     			int x = rand.nextInt( grid.getWidth() ) + 1;
     			int y = rand.nextInt( grid.getHeight() ) + 1;
-    			grid.single(x,y);
+    			grid.single(Math.abs(x),Math.abs(y));
     			System.out.println("Added Single at " + x + " " + y);
     		}
     		updateState();
@@ -172,7 +180,7 @@ public class GUI extends JFrame implements AssetProvider {
     });
     
     bottomBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-    //bottomBar.add(setExecutable);
+    bottomBar.add(setExecutable);
     bottomBar.add(start);
     bottomBar.add(stop);
     bottomBar.add(random);
