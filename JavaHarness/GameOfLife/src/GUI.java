@@ -36,14 +36,16 @@ public class GUI extends JFrame implements AssetProvider {
   private JTextField xCorInput = new JTextField("---");
   private JTextField yCorInput = new JTextField("---");
   private JButton add = new JButton ("add");
+  private JButton clear = new JButton ("Clear");
   
-  String[] objects = { "Blinker", "Spinner", "Glider", "Beehive", "Single", "Block"};
+  String[] objects = { "Blinker", "Glider", "Beehive", "Single", "Block"};
   private JComboBox objectList = new JComboBox(objects);
 
 //  NEED to set current Executable
   private String currentExecutable = "";
   private String cachedHtmlOutput = "";
   private String cachedInput = "";
+  private String cachedAliveCells = "";
   
   private boolean started = false;
   
@@ -103,12 +105,13 @@ public class GUI extends JFrame implements AssetProvider {
       public void actionPerformed(final ActionEvent e) {
         started = true;
         updateState();
+        cachedAliveCells = "";
         for (int s : grid.getAliveCells()) {
-        	cachedInput += s + " ";
+        	cachedAliveCells += s + " ";
         }
         System.out.println(cachedInput);
         try {
-          writeFile("world.txt", cachedInput);
+          writeFile("world.txt", cachedAliveCells);
         } catch (final IOException e1) {
           e1.printStackTrace();
         }
@@ -122,6 +125,19 @@ public class GUI extends JFrame implements AssetProvider {
         updateState();
       }
     });
+    clear.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+        	grid.clearGrid();
+        	try {
+	             writeFile("display.htm", "");
+	             writeFile("world.txt", "");
+	        } catch (final IOException e1) {
+	             e1.printStackTrace();
+	        }
+        	updateState();
+        }
+      });
     
     random.addActionListener( new ActionListener () {
     	@Override
@@ -167,7 +183,7 @@ public class GUI extends JFrame implements AssetProvider {
 	        		grid.blinker(xint, yint);
 	        	} else if (objectList.getSelectedItem() == "Single") { 
 	        		grid.single(xint, yint);
-	        	}
+	        	} 
 	        	System.out.println("Add" + objectList.getSelectedItem() + " at " + xCorInput.getText() + " " + xCorInput.getText());
         	}
         	catch (IllegalArgumentException exc) {
@@ -184,6 +200,7 @@ public class GUI extends JFrame implements AssetProvider {
     bottomBar.add(start);
     bottomBar.add(stop);
     bottomBar.add(random);
+    bottomBar.add(clear);
     bottomBar.add(new JSeparator(SwingConstants.VERTICAL));
     bottomBar.add(objectList);
     bottomBar.add(new JLabel("at ["));
