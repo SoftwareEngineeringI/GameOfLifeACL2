@@ -16,7 +16,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -27,6 +26,7 @@ public class GUI extends JFrame implements AssetProvider {
   private static final long serialVersionUID = 2468802632497148995L;
   
   private JTextArea inputEditor = new JTextArea(); 
+  
   
   private JPanel bottomBar = new JPanel();
   private JButton setExecutable = new JButton("Set Executable");
@@ -54,40 +54,11 @@ public class GUI extends JFrame implements AssetProvider {
   private AsyncProgramRunner runner = new AsyncProgramRunner();
   
   public GUI() {
+	 this.setSize(750, 500);
     setTitle("Game of Life"); 	
-    boolean badHeightInput = true;
-    boolean badWidthInput = true;
-    int width = -1;
-	int height = -1;
-    while (badHeightInput) {
-	    try {
-	    	String input = JOptionPane.showInputDialog("Enter the height:");
-	    	if (input == null) {
-	    		System.exit(0);
-	    	}
-	    	height = Integer.parseInt(input);
-	    	badHeightInput = false;
-	    }
-	    catch (Exception e) {
-	    	System.out.println("Height must be integer");
-	    }
-    }
-    while (badWidthInput) {
-	    try {
-	    	String input = JOptionPane.showInputDialog("Enter the width:");
-	    	if (input == null) {
-	    		System.exit(0);
-	    	}
-	    	width = Integer.parseInt(input);
-	    	badWidthInput = false;
-	    }
-	    catch (Exception e) {
-	    	System.out.println("Width must be integer");
-	    }
-    }
     
-    System.out.println(height + " " + width);
-    grid = new Grid(width, height);
+    System.out.println(50 + " " + 50);
+    grid = new Grid(50, 50);
     
     getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     add(inputEditor);
