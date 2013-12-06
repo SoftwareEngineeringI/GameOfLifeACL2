@@ -129,6 +129,45 @@ public class Grid {
 		aliveCells.add(below(place));
 	}
 	
+	public void gliderGun(int _height, int _width){
+		single( _width +24, 8+ _height);
+		single( _width +22, 7+ _height);
+		single( _width +24, 7+ _height);
+		single( _width +12, 6+ _height);
+		single( _width +13, 6+ _height);
+		single( _width +20, 6+ _height);
+		single( _width +21, 6+ _height);
+		single( _width +34, 6+ _height);
+		single( _width +35, 6+ _height);
+		single( _width +11, 5+ _height);
+		single( _width +15, 5+ _height);
+		single( _width +20, 5+ _height);
+		single( _width +21, 5+ _height);
+		single( _width +34, 5+ _height);
+		single( _width +35, 5+ _height);
+		single( _width +0, 4+ _height);
+		single( _width +1, 4+ _height);
+		single( _width +10, 4+ _height);
+		single( _width +16, 4+ _height);
+		single( _width +20, 4+ _height);
+		single( _width +21, 4+ _height);
+		single( _width +0, 3+ _height);
+		single( _width +1, 3+ _height);
+		single( _width +10, 3+ _height);
+		single( _width +14, 3+ _height);
+		single( _width +16, 3+ _height);
+		single( _width +17, 3+ _height);
+		single( _width +22, 3+ _height);
+		single( _width +24, 3+ _height);
+		single( _width +10, 2+ _height);
+		single( _width +16, 2+ _height);
+		single( _width +24, 2+ _height);
+		single( _width +11, 1+ _height);
+		single( _width +15, 1+ _height);
+		single( _width +12, 0+ _height); 
+		single( _width +13, 0+ _height);
+	}
+	
 	public void clearGrid(){
 		aliveCells.clear();
 	}

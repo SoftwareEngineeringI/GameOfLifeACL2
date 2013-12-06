@@ -38,7 +38,7 @@ public class GUI extends JFrame implements AssetProvider {
   private JButton add = new JButton ("add");
   private JButton clear = new JButton ("Clear");
   
-  String[] objects = { "Blinker", "Glider", "Beehive", "Single", "Block"};
+  String[] objects = { "Blinker", "Glider", "Beehive", "Single", "Block", "Pentomino", "GliderGun"};
   private JComboBox objectList = new JComboBox(objects);
 
 //  NEED to set current Executable
@@ -54,7 +54,7 @@ public class GUI extends JFrame implements AssetProvider {
   private AsyncProgramRunner runner = new AsyncProgramRunner();
   
   public GUI() {
-	 this.setSize(750, 500);
+	 this.setSize(900, 500);
     setTitle("Game of Life"); 	
     
     System.out.println(50 + " " + 50);
@@ -140,7 +140,7 @@ public class GUI extends JFrame implements AssetProvider {
         		yint = Integer.parseInt(yCorInput.getText());
         	}
         	catch (Exception ex) {
-        		System.out.println("Coordinates must be integers");
+        		inputEditor.setText("Coordinates must be integers");
         		return;
         	}
         	try {
@@ -154,8 +154,12 @@ public class GUI extends JFrame implements AssetProvider {
 	        		grid.blinker(xint, yint);
 	        	} else if (objectList.getSelectedItem() == "Single") { 
 	        		grid.single(xint, yint);
+	        	} else if (objectList.getSelectedItem() == "Pentomino") { 
+	        		grid.setStartRPentomino(xint, yint);
+	        	} else if (objectList.getSelectedItem() == "GliderGun") { 
+        		grid.gliderGun(xint, yint);
 	        	} 
-	        	System.out.println("Add" + objectList.getSelectedItem() + " at " + xCorInput.getText() + " " + xCorInput.getText());
+	        	inputEditor.setText("Add" + objectList.getSelectedItem() + " at " + xCorInput.getText() + " " + xCorInput.getText());
         	}
         	catch (IllegalArgumentException exc) {
         		System.err.println("Error: " + exc);
